@@ -1,0 +1,12 @@
+# Email Integration Requirements
+# Install with: pip3 install -r requirements.email.txt
+
+# Gmail API
+google-auth>=2.0.0
+google-auth-oauthlib>=1.0.0
+google-auth-httplib2>=0.1.0
+google-api-python-client>=2.0.0
+
+# Outlook/Exchange API
+msal>=1.20.0
+requests>=2.28.0

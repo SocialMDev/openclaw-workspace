@@ -1,0 +1,63 @@
+[Unit]
+Description=Honcho AI Memory Server
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=faisal
+Group=faisal
+WorkingDirectory=/home/faisal/.openclaw/workspace/honcho-ai
+
+# Load environment variables
+Environment="DB_CONNECTION_URI=postgresql+psycopg://honcho:honcho123@localhost:5432/honcho"
+Environment="LLM_ANTHROPIC_API_KEY=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"
+Environment="LLM_OPENAI_API_KEY=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"
+Environment="AUTH_USE_AUTH=false"
+Environment="SENTRY_ENABLED=false"
+Environment="SUMMARY_PROVIDER=anthropic"
+Environment="SUMMARY_MODEL=claude-3-5-sonnet-20241022"
+Environment="DERIVER_PROVIDER=anthropic"
+Environment="DERIVER_MODEL=claude-3-5-sonnet-20241022"
+Environment="DIALECTIC__LEVELS__minimal__PROVIDER=anthropic"
+Environment="DIALECTIC__LEVELS__minimal__MODEL=claude-3-5-sonnet-20241022"
+Environment="DIALECTIC__LEVELS__minimal__THINKING_BUDGET_TOKENS=0"
+Environment="DIALECTIC__LEVELS__minimal__MAX_TOOL_ITERATIONS=1"
+Environment="DIALECTIC__LEVELS__low__PROVIDER=anthropic"
+Environment="DIALECTIC__LEVELS__low__MODEL=claude-3-5-sonnet-20241022"
+Environment="DIALECTIC__LEVELS__low__THINKING_BUDGET_TOKENS=0"
+Environment="DIALECTIC__LEVELS__low__MAX_TOOL_ITERATIONS=5"
+Environment="DIALECTIC__LEVELS__medium__PROVIDER=anthropic"
+Environment="DIALECTIC__LEVELS__medium__MODEL=claude-3-5-sonnet-20241022"
+Environment="DIALECTIC__LEVELS__medium__THINKING_BUDGET_TOKENS=1024"
+Environment="DIALECTIC__LEVELS__medium__MAX_TOOL_ITERATIONS=2"
+Environment="DIALECTIC__LEVELS__high__PROVIDER=anthropic"
+Environment="DIALECTIC__LEVELS__high__MODEL=claude-3-5-sonnet-20241022"
+Environment="DIALECTIC__LEVELS__high__THINKING_BUDGET_TOKENS=2048"
+Environment="DIALECTIC__LEVELS__high__MAX_TOOL_ITERATIONS=3"
+Environment="DIALECTIC__LEVELS__max__PROVIDER=anthropic"
+Environment="DIALECTIC__LEVELS__max__MODEL=claude-3-5-sonnet-20241022"
+Environment="DIALECTIC__LEVELS__max__THINKING_BUDGET_TOKENS=4096"
+Environment="DIALECTIC__LEVELS__max__MAX_TOOL_ITERATIONS=5"
+Environment="PYTHONUNBUFFERED=1"
+
+# Start command
+ExecStart=/home/faisal/.openclaw/workspace/honcho-ai/.venv/bin/uvicorn src.main:app --host 0.0.0.0 --port 8002 --log-level info
+
+# Restart settings
+Restart=always
+RestartSec=5
+StartLimitInterval=60s
+StartLimitBurst=3
+
+# Logging
+StandardOutput=append:/var/log/honcho.log
+StandardError=append:/var/log/honcho-error.log
+
+# Security
+NoNewPrivileges=false
+ProtectSystem=no
+ProtectHome=no
+
+[Install]
+WantedBy=multi-user.target

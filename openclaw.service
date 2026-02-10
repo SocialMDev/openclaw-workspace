@@ -1,0 +1,38 @@
+[Unit]
+Description=OpenClaw AI Assistant with Honcho Memory
+After=network.target postgresql.service redis.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=faisal
+Group=faisal
+WorkingDirectory=/home/faisal/.openclaw/workspace
+
+# Environment
+Environment="PYTHONPATH=/home/faisal/.openclaw/workspace/honcho-ai/sdks/python/src"
+Environment="HONCHO_URL=http://localhost:8002"
+Environment="HONCHO_KEY=openclaw-local-dev"
+Environment="HONCHO_WORKSPACE=openclaw"
+Environment="PYTHONUNBUFFERED=1"
+
+# Start command - using honcho-ai's uv environment
+ExecStart=/home/faisal/.openclaw/workspace/honcho-ai/.venv/bin/python /home/faisal/.openclaw/workspace/api_server.py
+
+# Restart settings
+Restart=always
+RestartSec=5
+StartLimitInterval=60s
+StartLimitBurst=3
+
+# Logging
+StandardOutput=append:/var/log/openclaw.log
+StandardError=append:/var/log/openclaw-error.log
+
+# Security
+NoNewPrivileges=false
+ProtectSystem=no
+ProtectHome=no
+
+[Install]
+WantedBy=multi-user.target
