@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al-Musaafir | Travel Intelligence Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-pattern"></div>
+    
+    <header class="header">
+        <div class="logo">
+            <span class="logo-icon">✈️</span>
+            <div class="logo-text">
+                <h1>Al-Musaafir</h1>
+                <span class="arabic">المسافر</span>
+            </div>
+        </div>
+        <p class="tagline">Smart Travel Intelligence for the Modern Explorer</p>
+    </header>
+
+    <main class="container">
+        <!-- Dashboard View -->
+        <section id="dashboard" class="view active">
+            <h2 class="section-title">Choose Your Travel Tool</h2>
+            <p class="section-subtitle">Yalla! Select an intelligence module below</p>
+            
+            <div class="tools-grid">
+                <div class="tool-card" onclick="showTool('route-optimizer')">
+                    <div class="tool-icon">🗺️</div>
+                    <h3>Route Optimizer</h3>
+                    <p>Find cheapest routes with flexible dates, nearby airports & creative layovers</p>
+                    <span class="tool-tag">Flexible Search</span>
+                </div>
+
+                <div class="tool-card" onclick="showTool('timing-analyzer')">
+                    <div class="tool-icon">📅</div>
+                    <h3>Timing Analyzer</h3>
+                    <p>Discover optimal booking windows & historical price patterns</p>
+                    <span class="tool-tag">Price History</span>
+                </div>
+
+                <div class="tool-card" onclick="showTool('hidden-fares')">
+                    <div class="tool-icon">💎</div>
+                    <h3>Hidden Fares</h3>
+                    <p>Uncover split-tickets, hidden-city options & fare arbitrage</p>
+                    <span class="tool-tag">Advanced</span>
+                </div>
+
+                <div class="tool-card" onclick="showTool('airline-deals')">
+                    <div class="tool-icon">🏷️</div>
+                    <h3>Airline Deals</h3>
+                    <p>Compare direct airline offers, regional carriers & exclusive fares</p>
+                    <span class="tool-tag">Direct Booking</span>
+                </div>
+
+                <div class="tool-card" onclick="showTool('points-optimizer')">
+                    <div class="tool-icon">💳</div>
+                    <h3>Points Optimizer</h3>
+                    <p>Maximize credit card points, airline miles & transfer partners</p>
+                    <span class="tool-tag">Rewards</span>
+                </div>
+
+                <div class="tool-card" onclick="showTool('price-monitor')">
+                    <div class="tool-icon">🔔</div>
+                    <h3>Price Monitor</h3>
+                    <p>Set up alerts for price drops, error fares & award space</p>
+                    <span class="tool-tag">Tracking</span>
+                </div>
+
+                <div class="tool-card" onclick="showTool('booking-audit')">
+                    <div class="tool-icon">✅</div>
+                    <h3>Booking Audit</h3>
+                    <p>Final checklist before booking - fees, risks & alternatives</p>
+                    <span class="tool-tag">Pre-Booking</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Route Optimizer -->
+        <section id="route-optimizer" class="view">
+            <div class="tool-header">
+                <button class="back-btn" onclick="showDashboard()">← Back</button>
+                <h2>🗺️ Route Optimizer</h2>
+                <p class="arabic-quote">"The best path is not always the straightest"</p>
+            </div>
+            
+            <form class="tool-form" id="route-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>From (Departure)</label>
+                        <input type="text" id="departure" placeholder="City or Airport (e.g., NYC, JFK)">
+                    </div>
+                    <div class="form-group">
+                        <label>To (Destination)</label>
+                        <input type="text" id="destination" placeholder="City or Airport (e.g., Tokyo, NRT)">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Departure Date</label>
+                        <input type="date" id="depart-date">
+                    </div>
+                    <div class="form-group">
+                        <label>Return Date (Optional)</label>
+                        <input type="date" id="return-date">
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="flexible-dates" checked>
+                        <span>±3 days flexible</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="nearby-airports" checked>
+                        <span>Include nearby airports (100km)</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="creative-layovers">
+                        <span>Allow creative layovers</span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label>Max Travel Time (hours)</label>
+                    <input type="range" id="max-travel-time" min="4" max="48" value="24">
+                    <span class="range-value">24 hours</span>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span>Find Optimal Routes</span>
+                    <span class="arabic">ابحث عن الطرق</span>
+                </button>
+            </form>
+
+            <div class="results-area" id="route-results">
+                <!-- Results will appear here -->
+            </div>
+        </section>
+
+        <!-- Timing Analyzer -->
+        <section id="timing-analyzer" class="view">
+            <div class="tool-header">
+                <button class="back-btn" onclick="showDashboard()">← Back</button>
+                <h2>📅 Timing Analyzer</h2>
+                <p class="arabic-quote">"Patience brings the best deals"</p>
+            </div>
+
+            <form class="tool-form" id="timing-form">
+                <div class="form-group">
+                    <label>Route</label>
+                    <input type="text" id="timing-route" placeholder="e.g., NYC to Tokyo">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Earliest Travel Date</label>
+                        <input type="date" id="earliest-date">
+                    </div>
+                    <div class="form-group">
+                        <label>Latest Travel Date</label>
+                        <input type="date" id="latest-date">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Trip Type</label>
+                    <select id="trip-type">
+                        <option value="economy">Economy</option>
+                        <option value="business">Business Class</option>
+                        <option value="first">First Class</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span>Analyze Timing</span>
+                    <span class="arabic">حلل التوقيت</span>
+                </button>
+            </form>
+
+            <div class="results-area" id="timing-results"></div>
+        </section>
+
+        <!-- Hidden Fares -->
+        <section id="hidden-fares" class="view">
+            <div class="tool-header">
+                <button class="back-btn" onclick="showDashboard()">← Back</button>
+                <h2>💎 Hidden Fares</h2>
+                <p class="arabic-quote">"The treasure is where others don't look"</p>
+            </div>
+
+            <form class="tool-form" id="hidden-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>From</label>
+                        <input type="text" id="hidden-from" placeholder="Departure city">
+                    </div>
+                    <div class="form-group">
+                        <label>To</label>
+                        <input type="text" id="hidden-to" placeholder="Destination city">
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="split-ticket" checked>
+                        <span>Split-ticket options</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="hidden-city">
+                        <span>Hidden-city opportunities (one-way only)</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="positioning-flights" checked>
+                        <span>Positioning flight strategies</span>
+                    </label>
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Important:</strong> Hidden-city ticketing has risks. 
+                    Carry-on only, one-way tickets, no loyalty program benefits.
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span>Find Hidden Deals</span>
+                    <span class="arabic">ابحث عن الصفقات الخفية</span>
+                </button>
+            </form>
+
+            <div class="results-area" id="hidden-results"></div>
+        </section>
+
+        <!-- Airline Deals -->
+        <section id="airline-deals" class="view">
+            <div class="tool-header">
+                <button class="back-btn" onclick="showDashboard()">← Back</button>
+                <h2>🏷️ Airline Direct Deals</h2>
+                <p class="arabic-quote">"Go directly to the source"</p>
+            </div>
+
+            <form class="tool-form" id="deals-form">
+                <div class="form-group">
+                    <label>Route</label>
+                    <input type="text" id="deals-route" placeholder="e.g., JFK to LHR">
+                </div>
+
+                <div class="form-group">
+                    <label>Preferred Airlines (Optional)</label>
+                    <div class="airline-tags">
+                        <span class="tag" onclick="toggleAirline(this)">United</span>
+                        <span class="tag" onclick="toggleAirline(this)">Delta</span>
+                        <span class="tag" onclick="toggleAirline(this)">American</span>
+                        <span class="tag" onclick="toggleAirline(this)">Emirates</span>
+                        <span class="tag" onclick="toggleAirline(this)">Qatar</span>
+                        <span class="tag" onclick="toggleAirline(this)">Lufthansa</span>
+                        <span class="tag" onclick="toggleAirline(this)">Singapore</span>
+                        <span class="tag" onclick="toggleAirline(this)">Turkish</span>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="member-fares" checked>
+                        <span>Check member-exclusive fares</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="lcc-options" checked>
+                        <span>Include low-cost carriers</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span>Compare Airline Deals</span>
+                    <span class="arabic">قارن عروض الطيران</span>
+                </button>
+            </form>
+
+            <div class="results-area" id="deals-results"></div>
+        </section>
+
+        <!-- Points Optimizer -->
+        <section id="points-optimizer" class="view">
+            <div class="tool-header">
+                <button class="back-btn" onclick="showDashboard()">← Back</button>
+                <h2>💳 Points Optimizer</h2>
+                <p class="arabic-quote">"Make your points work harder"</p>
+            </div>
+
+            <form class="tool-form" id="points-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>From</label>
+                        <input type="text" id="points-from" placeholder="Departure">
+                    </div>
+                    <div class="form-group">
+                        <label>To</label>
+                        <input type="text" id="points-to" placeholder="Destination">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Your Points Programs</label>
+                    <div class="points-grid">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="chase-ur">
+                            <span>Chase Ultimate Rewards</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="amex-mr">
+                            <span>Amex Membership Rewards</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="citi-ty">
+                            <span>Citi ThankYou Points</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="cap-one">
+                            <span>Capital One Miles</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Current Points Balance (approximate)</label>
+                    <input type="number" id="points-balance" placeholder="e.g., 50000">
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="compare-cash" checked>
+                        <span>Compare cash vs points value</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span>Optimize Points Strategy</span>
+                    <span class="arabic">حسن استراتيجية النقاط</span>
+                </button>
+            </form>
+
+            <div class="results-area" id="points-results"></div>
+        </section>
+
+        <!-- Price Monitor -->
+        <section id="price-monitor" class="view">
+            <div class="tool-header">
+                <button class="back-btn" onclick="showDashboard()">← Back</button>
+                <h2>🔔 Price Monitor</h2>
+                <p class="arabic-quote">"The patient traveler gets the best deal"</p>
+            </div>
+
+            <form class="tool-form" id="monitor-form">
+                <div class="form-group">
+                    <label>Route to Monitor</label>
+                    <input type="text" id="monitor-route" placeholder="e.g., NYC to Tokyo">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Target Price ($)</label>
+                        <input type="number" id="target-price" placeholder="e.g., 800">
+                    </div>
+                    <div class="form-group">
+                        <label>Alert Email</label>
+                        <input type="email" id="alert-email" placeholder="your@email.com">
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="monitor-error-fares" checked>
+                        <span>Monitor for error fares</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="monitor-award-space">
+                        <span>Monitor award space availability</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="monitor-flash-sales" checked>
+                        <span>Flash sale alerts</span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label>Check Frequency</label>
+                    <select id="check-frequency">
+                        <option value="hourly">Every hour</option>
+                        <option value="6hours" selected>Every 6 hours</option>
+                        <option value="daily">Once daily</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span>Set Up Monitoring</span>
+                    <span class="arabic">إعداد المراقبة</span>
+                </button>
+            </form>
+
+            <div class="results-area" id="monitor-results"></div>
+        </section>
+
+        <!-- Booking Audit -->
+        <section id="booking-audit" class="view">
+            <div class="tool-header">
+                <button class="back-btn" onclick="showDashboard()">← Back</button>
+                <h2>✅ Booking Audit</h2>
+                <p class="arabic-quote">"Measure twice, book once"</p>
+            </div>
+
+            <form class="tool-form" id="audit-form">
+                <div class="form-group">
+                    <label>Paste Your Itinerary</label>
+                    <textarea id="itinerary-text" rows="6" placeholder="Paste flight details, confirmation numbers, times, airlines..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Booking Platform</label>
+                    <select id="booking-platform">
+                        <option value="">Select platform...</option>
+                        <option value="airline-direct">Airline Direct</option>
+                        <option value="expedia">Expedia</option>
+                        <option value="booking">Booking.com</option>
+                        <option value="skyscanner">Skyscanner</option>
+                        <option value="kayak">Kayak</option>
+                        <option value="other">Other OTA</option>
+                    </select>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="check-alternatives" checked>
+                        <span>Check for cheaper alternatives</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="check-fees" checked>
+                        <span>Audit for hidden fees</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="check-connections" checked>
+                        <span>Validate connection times</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="check-visa">
+                        <span>Check visa/transit requirements</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span>Audit Before Booking</span>
+                    <span class="arabic">تدقيق قبل الحجز</span>
+                </button>
+            </form>
+
+            <div class="results-area" id="audit-results"></div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Al-Musaafir | المسافر - Travel Intelligence Platform</p>
+        <p class="footer-arabic">"العالم كتاب، والمسافر يقرأ صفحاته"</p>
+        <p class="footer-quote">"The world is a book, and the traveler reads its pages"</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
