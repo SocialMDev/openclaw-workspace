@@ -1,0 +1,28 @@
+{
+  "timestamp": "2026-02-12T04:44:04.395179",
+  "workflow_name": "demo-workflow",
+  "step_number": 0,
+  "step_name": "initialized",
+  "description": "Collected sample tweets",
+  "state": {
+    "workflow_name": "demo-workflow",
+    "created_at": "2026-02-12T04:43:58.881927",
+    "last_updated": "2026-02-12T04:44:04.315170",
+    "current_phase": "initialized",
+    "phases_completed": [],
+    "step_number": 0,
+    "data": {
+      "phase": "data-collection",
+      "step_count": 1
+    },
+    "artifacts": [],
+    "config": {
+      "venv": false,
+      "venv_path": null
+    }
+  },
+  "artifacts": [],
+  "global_artifacts": [
+    "artifacts/data/demo-tweets-2026-02-12.json"
+  ]
+}

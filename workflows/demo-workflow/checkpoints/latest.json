@@ -1,0 +1,29 @@
+{
+  "timestamp": "2026-02-12T04:44:09.703089",
+  "workflow_name": "demo-workflow",
+  "step_number": 0,
+  "step_name": "initialized",
+  "description": "Completed sentiment analysis",
+  "state": {
+    "workflow_name": "demo-workflow",
+    "created_at": "2026-02-12T04:43:58.881927",
+    "last_updated": "2026-02-12T04:44:09.625179",
+    "current_phase": "initialized",
+    "phases_completed": [],
+    "step_number": 0,
+    "data": {
+      "phase": "analysis",
+      "step_count": 2
+    },
+    "artifacts": [],
+    "config": {
+      "venv": false,
+      "venv_path": null
+    }
+  },
+  "artifacts": [],
+  "global_artifacts": [
+    "artifacts/data/demo-tweets-2026-02-12.json",
+    "artifacts/reports/demo-analysis-2026-02-12.json"
+  ]
+}

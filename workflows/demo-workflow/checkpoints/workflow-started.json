@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-02-12T04:43:59.099069",
+  "workflow_name": "demo-workflow",
+  "step_number": 0,
+  "step_name": "initialized",
+  "description": "Initialized demo workflow",
+  "state": {
+    "workflow_name": "demo-workflow",
+    "created_at": "2026-02-12T04:43:58.881927",
+    "last_updated": "2026-02-12T04:43:59.026867",
+    "current_phase": "initialized",
+    "phases_completed": [],
+    "step_number": 0,
+    "data": {
+      "phase": "initialization",
+      "step_count": 0
+    },
+    "artifacts": [],
+    "config": {
+      "venv": false,
+      "venv_path": null
+    }
+  },
+  "artifacts": [],
+  "global_artifacts": []
+}
