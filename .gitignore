@@ -5,8 +5,11 @@ __pycache__/
 *.node
 .env
 .env.*
+.env.openclaw
 !.env.example
 *.log
 credentials/
 token.json
 *.pickle
+*.secret
+honcho.service
