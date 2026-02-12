@@ -40,23 +40,43 @@ Al-Musaafir is a sophisticated travel intelligence agent that combines:
 ### 1. Multi-Platform Price Comparison
 **Tools Used:** browser (OpenClaw built-in), web_search, web_fetch
 
-- Scrapes Google Flights, Skyscanner, Kayak, Momondo simultaneously
-- Compares direct airline websites for exclusive deals
-- Monitors OTAs vs direct booking advantages
-- Tracks price history across platforms
+**Travel Sites Accessible:**
+- ✅ **Google Flights** - Date grid, flexible search, price tracking
+- ✅ **Skyscanner** - Multi-airline comparison, everywhere search
+- ✅ **Kayak** - Price forecasts, flexible dates
+- ✅ **Momondo** - Budget options, regional carriers
+- ✅ **Booking.com** - Hotels, flights, packages
+- ✅ **Expedia/Orbitz/Priceline** - OTA comparison
+- ✅ **Airline Direct Sites** - United, Delta, American, Lufthansa, Emirates, etc.
+- ✅ **Hotel Sites** - Marriott, Hilton, IHG direct
+- ✅ **Review Sites** - TripAdvisor, Google Reviews
+- ✅ **Deal Sites** - Secret Flying, Scott's Cheap Flights, Jack's Flight Club
+- ✅ **Award Search** - AwardHacker, United, Aeroplan, Flying Blue
 
-**Example Commands:**
+**How it works:**
 ```bash
-# Use browser tool to navigate travel sites
-browser open "https://www.google.com/travel/flights"
-browser snapshot --extract pricing-data
+# Open and search Google Flights
+browser open "https://www.google.com/flights"
+browser type selector="input[placeholder*='Where']" text="New York"
+browser type selector="input[placeholder*='Where to']" text="Tokyo"
+browser click selector="button[aria-label*='Search']"
+browser snapshot --extract prices
 
-# Web search for deals
-web_search "error fares NYC to Europe 2026"
+# Check Skyscanner for comparison
+browser open "https://www.skyscanner.com"
+[automated search and extraction]
 
-# Fetch specific deal pages
+# Fetch deal sites
 web_fetch "https://www.secretflying.com/usa-new-york/"
+web_fetch "https://scottscheapflights.com/deals"
 ```
+
+**Real-time capabilities:**
+- Live price scraping from any travel site
+- Multi-tab comparison across platforms
+- Screenshot evidence of pricing
+- Automated form filling for searches
+- Dynamic content extraction (JavaScript-rendered prices)
 
 ### 2. Hidden Fare Analysis
 **Tools Used:** browser, exec, write
@@ -109,6 +129,52 @@ cron add --schedule "0 */6 * * *" \
 - Checks visa/transit requirements
 - Validates connection times
 - Reviews airline reliability
+
+## Booking Capabilities
+
+Al-Musaafir can **research and compare** bookings across all major platforms:
+
+### ✅ Flight Booking Sites
+| Site | Capabilities |
+|------|-------------|
+| **Google Flights** | Date grid, explore map, track prices, flexible dates |
+| **Skyscanner** | Everywhere search, multi-city, price alerts |
+| **Kayak** | Price forecasts, hacker fares, flexible search |
+| **Momondo** | Budget focus, regional airlines |
+| **Booking.com** | Flights + hotels packages |
+| **Expedia/Orbitz** | Bundled deals, member pricing |
+| **Priceline** | Express deals, Name Your Own Price |
+| **Hopper** | Price prediction, freeze fares |
+| **Skiplagged** | Hidden-city opportunities |
+
+### ✅ Hotel Booking Sites
+| Site | Capabilities |
+|------|-------------|
+| **Booking.com** | Largest inventory, free cancellation |
+| **Hotels.com** | Rewards program, price match |
+| **Expedia** | Bundled flight+hotel savings |
+| **Agoda** | Asia-Pacific focus |
+| **HotelTonight** | Last-minute deals |
+| **Direct Hotel Sites** | Marriott, Hilton, IHG, Hyatt member rates |
+
+### ✅ Airline Direct Websites
+- **Legacy:** United, Delta, American, Lufthansa, BA, Air France, Emirates, Qatar, Singapore Airlines
+- **Low-Cost:** Southwest, Ryanair, EasyJet, Norwegian, Spirit, Frontier
+- **Regional:** All regional carriers worldwide
+
+### ✅ Award Booking Tools
+- **AwardHacker** - Award chart comparison
+- **Airline Websites** - United, American, Delta, Aeroplan, Flying Blue
+
+### ✅ Deal Monitoring Sites
+- Secret Flying
+- Scott's Cheap Flights
+- Jack's Flight Club
+- FlyerTalk Forums
+- Reddit r/awardtravel
+- Reddit r/flights
+
+**Note:** Al-Musaafir can **research, compare, and monitor** across all these platforms using browser automation. For actual booking, it guides you to the best platform with all details prepared.
 
 ## The 7 Intelligent Prompts
 

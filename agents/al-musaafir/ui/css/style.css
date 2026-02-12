@@ -522,3 +522,91 @@ input[type="range"]::-webkit-slider-thumb {
     background: var(--accent-gold);
     color: var(--bg-primary);
 }
+
+/* Tom Select Dark Theme Override */
+.ts-wrapper {
+    --ts-pr-clear-button: 0;
+}
+
+.ts-wrapper .ts-control {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: var(--text-primary);
+    font-size: 1rem;
+    min-height: 48px;
+}
+
+.ts-wrapper .ts-control:focus,
+.ts-wrapper.focus .ts-control {
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.1);
+}
+
+.ts-wrapper .ts-control input {
+    color: var(--text-primary);
+}
+
+.ts-wrapper .ts-control input::placeholder {
+    color: var(--text-muted);
+}
+
+.ts-wrapper .ts-control .item {
+    color: var(--text-primary);
+}
+
+.ts-dropdown {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-top: 4px;
+    box-shadow: 0 8px 24px var(--shadow-color);
+}
+
+.ts-dropdown .optgroup-header {
+    background: var(--bg-primary);
+    color: var(--accent-gold);
+    font-weight: 600;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ts-dropdown .option {
+    color: var(--text-primary);
+    padding: 10px 12px;
+    cursor: pointer;
+}
+
+.ts-dropdown .option:hover,
+.ts-dropdown .option.active {
+    background: rgba(255, 215, 0, 0.1);
+    color: var(--accent-gold);
+}
+
+.ts-dropdown .option.selected {
+    background: rgba(255, 215, 0, 0.2);
+}
+
+.ts-dropdown .no-results {
+    color: var(--text-muted);
+    padding: 10px 12px;
+}
+
+/* Tom Select arrow styling */
+.ts-wrapper.single .ts-control::after {
+    border-color: var(--text-muted) transparent transparent transparent;
+}
+
+.ts-wrapper.single.focus .ts-control::after {
+    border-color: var(--accent-gold) transparent transparent transparent;
+}
+
+/* Remove default focus outline */
+.ts-wrapper .ts-control,
+.ts-wrapper .ts-control input {
+    outline: none;
+}

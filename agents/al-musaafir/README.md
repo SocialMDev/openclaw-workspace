@@ -46,6 +46,31 @@ Every travel request triggers these analyses:
 - **AGENTS.md** - Configuration, tools, capabilities
 - **SOUL.md** - Personality, voice, values
 - **BOOTSTRAP.md** - Quick activation guide (this file)
+- **ui/** - Beautiful web interface with all 7 tools
+
+## Web UI
+
+Al-Musaafir comes with a beautiful dark-themed web interface:
+
+```bash
+# Open the UI
+open /home/faisal/.openclaw/workspace/agents/al-musaafir/ui/index.html
+```
+
+**Features:**
+- 🎨 Dark Arabic-inspired design (deep blues + gold accents)
+- 📱 Responsive - works on mobile and desktop
+- 🌙 Bilingual - English with Arabic decorative elements
+- 💾 Saves searches and monitors to localStorage
+- ⚡ Smooth animations and interactions
+
+**UI Structure:**
+- Dashboard with all 7 tools
+- Individual forms for each tool
+- Results display areas
+- Price monitoring alerts
+
+See `ui/README.md` for full UI documentation.
 
 ## Example Interactions
 

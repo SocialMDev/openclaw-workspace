@@ -1,11 +1,87 @@
 // Al-Musaafir UI Controller
+// City data is loaded from cities-data.js (CITIES and REGION_ORDER constants)
+
 const App = {
+    tomSelectInstances: [],
     currentView: 'dashboard',
-    
+
     init() {
+        this.populateCityDropdowns();
         this.bindEvents();
         this.loadSavedData();
-        console.log('Al-Musaafir UI initialized - Yalla!');
+    },
+
+    /**
+     * Group cities by region for optgroup display
+     * @returns {Object} - Cities grouped by region
+     */
+    groupCitiesByRegion() {
+        const grouped = {};
+        for (const [code, data] of Object.entries(CITIES)) {
+            if (!grouped[data.region]) {
+                grouped[data.region] = [];
+            }
+            grouped[data.region].push([code, data]);
+        }
+        return grouped;
+    },
+
+    /**
+     * Populate city dropdowns with searchable Tom Select
+     */
+    populateCityDropdowns() {
+        const selects = ['departure', 'destination'];
+        const grouped = this.groupCitiesByRegion();
+
+        selects.forEach(id => {
+            const select = document.getElementById(id);
+            if (!select) return;
+
+            // Build options with optgroups
+            let html = '<option value="">Search cities...</option>';
+            REGION_ORDER.forEach(region => {
+                if (grouped[region]) {
+                    html += `<optgroup label="${region}">`;
+                    grouped[region]
+                        .sort((a, b) => a[1].name.localeCompare(b[1].name))
+                        .forEach(([code, data]) => {
+                            html += `<option value="${code}">${data.name} (${code})</option>`;
+                        });
+                    html += '</optgroup>';
+                }
+            });
+            select.innerHTML = html;
+
+            // Initialize Tom Select with dark theme styling
+            const tomSelect = new TomSelect(select, {
+                create: false,
+                maxOptions: null,
+                placeholder: 'Type to search...',
+                allowEmptyOption: true,
+                render: {
+                    option: (data, escape) => {
+                        return `<div>${escape(data.text)}</div>`;
+                    },
+                    optgroup_header: (data, escape) => {
+                        return `<div class="optgroup-header">${escape(data.label)}</div>`;
+                    }
+                }
+            });
+
+            this.tomSelectInstances.push(tomSelect);
+        });
+    },
+
+    /**
+     * Sanitize user input to prevent XSS attacks
+     * @param {string} str - The string to sanitize
+     * @returns {string} - Sanitized string safe for HTML insertion
+     */
+    sanitize(str) {
+        if (str == null) return '';
+        const div = document.createElement('div');
+        div.textContent = String(str);
+        return div.innerHTML;
     },
     
     bindEvents() {
@@ -90,30 +166,29 @@ const App = {
     },
     
     generateRouteResults(data) {
+        const from = this.sanitize(data.departure || 'Origin');
+        const to = this.sanitize(data.destination || 'Destination');
+        const fromCity = this.sanitize(this.getCityName(data.departure || 'Origin'));
+        const toCity = this.sanitize(this.getCityName(data.destination || 'Destination'));
+        const departDate = this.sanitize(data['depart-date'] || 'Flexible dates');
+        
+        // Use PricingEngine for dynamic results
+        if (window.PricingEngine && from !== 'Origin' && to !== 'Destination') {
+            return window.PricingEngine.renderRouteResults(from, to, departDate, fromCity, toCity);
+        }
+        
+        // Fallback if PricingEngine not available
         return `
-            <h3 style="color: var(--accent-gold); margin-bottom: 1rem;">🎯 Optimal Routes Found</h3>
-            <div style="display: grid; gap: 1rem;">
-                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--success);">
-                    <h4>Best Value: Turkish Airlines</h4>
-                    <p>JFK → IST → NRT | $780 | 18h 30m</p>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">✓ Includes lounge access in Istanbul | ✓ 2 free checked bags</p>
-                </div>
-                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--accent-gold);">
-                    <h4>Fastest: Direct Flight</h4>
-                    <p>JFK → NRT (JAL/ANA) | $1,200 | 14h direct</p>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">✓ No layovers | ✓ Premium service</p>
-                </div>
-                <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--warning);">
-                    <h4>Budget Option: Split Ticket</h4>
-                    <p>JFK → LAX → NRT (Multiple airlines) | $650 | 22h</p>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">⚠ Self-transfer in LAX | Carry-on only recommended</p>
-                </div>
+            <h3 style="color: var(--accent-gold); margin-bottom: 1rem;">🎯 Optimal Routes: ${fromCity} → ${toCity}</h3>
+            <p style="color: var(--text-muted); margin-bottom: 1rem;">Departure: ${departDate}</p>
+            <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px;">
+                <p>Select both departure and destination cities to see calculated results.</p>
             </div>
-            <p style="margin-top: 1rem; color: var(--text-muted);">
-                <strong>Musaafir's Note:</strong> The Turkish routing saves $420 and gives you a nice break in Istanbul. 
-                I've seen this route drop to $650 - shall I set up monitoring?
-            </p>
         `;
+    },
+    
+    getCityName(code) {
+        return CITIES[code]?.name || code;
     },
     
     generateTimingResults(data) {
@@ -218,10 +293,10 @@ const App = {
     },
     
     generateMonitorResults(data) {
-        const route = data['monitor-route'] || 'your route';
-        const price = data['target-price'] || '800';
-        const email = data['alert-email'] || 'your email';
-        
+        const route = this.sanitize(data['monitor-route'] || 'your route');
+        const price = this.sanitize(data['target-price'] || '800');
+        const email = this.sanitize(data['alert-email'] || 'your email');
+
         return `
             <h3 style="color: var(--accent-gold); margin-bottom: 1rem;">🔔 Price Monitoring Activated</h3>
             <div style="background: var(--bg-card); padding: 1.5rem; border-radius: 8px;">
@@ -240,7 +315,7 @@ const App = {
                     </ul>
                 </ul>
                 <p style="color: var(--success);">
-                    You'll receive an alert immediately when the price drops below $${price} 
+                    You'll receive an alert immediately when the price drops below $${price}
                     or when error fares appear!
                 </p>
             </div>
@@ -305,23 +380,32 @@ const App = {
     },
     
     saveSearch(formId, data) {
-        const searches = JSON.parse(localStorage.getItem('alMusaafirSearches') || '[]');
-        searches.push({
-            id: Date.now(),
-            form: formId,
-            data: data,
-            timestamp: new Date().toISOString()
-        });
-        // Keep only last 20 searches
-        if (searches.length > 20) searches.shift();
-        localStorage.setItem('alMusaafirSearches', JSON.stringify(searches));
+        try {
+            const searches = JSON.parse(localStorage.getItem('alMusaafirSearches') || '[]');
+            // Don't store email addresses in localStorage for privacy
+            const sanitizedData = { ...data };
+            delete sanitizedData['alert-email'];
+
+            searches.push({
+                id: Date.now(),
+                form: formId,
+                data: sanitizedData,
+                timestamp: new Date().toISOString()
+            });
+            // Keep only last 20 searches
+            if (searches.length > 20) searches.shift();
+            localStorage.setItem('alMusaafirSearches', JSON.stringify(searches));
+        } catch (error) {
+            // localStorage may be unavailable or full
+        }
     },
-    
+
     loadSavedData() {
-        // Could restore form data or show recent searches
-        const searches = JSON.parse(localStorage.getItem('alMusaafirSearches') || '[]');
-        if (searches.length > 0) {
-            console.log(`Loaded ${searches.length} recent searches`);
+        try {
+            // Could restore form data or show recent searches
+            JSON.parse(localStorage.getItem('alMusaafirSearches') || '[]');
+        } catch (error) {
+            // localStorage may be unavailable or corrupted
         }
     }
 };
@@ -335,10 +419,14 @@ function showTool(toolId) {
     App.showTool(toolId);
 }
 
+function toggleAirline(element) {
+    element.classList.toggle('active');
+}
+
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     App.init();
 });
 
-// Expose App for debugging
+// Expose App for integration with OpenClaw
 window.AlMusaafir = App;

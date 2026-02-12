@@ -6,6 +6,7 @@
     <title>Al-Musaafir | Travel Intelligence Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css">
 </head>
 <body>
     <div class="background-pattern"></div>
@@ -28,50 +29,50 @@
             <p class="section-subtitle">Yalla! Select an intelligence module below</p>
             
             <div class="tools-grid">
-                <div class="tool-card" onclick="showTool('route-optimizer')">
-                    <div class="tool-icon">🗺️</div>
+                <div class="tool-card" role="button" tabindex="0" aria-label="Route Optimizer - Find cheapest routes" onclick="showTool('route-optimizer')" onkeypress="if(event.key==='Enter')showTool('route-optimizer')">
+                    <div class="tool-icon" aria-hidden="true">🗺️</div>
                     <h3>Route Optimizer</h3>
                     <p>Find cheapest routes with flexible dates, nearby airports & creative layovers</p>
                     <span class="tool-tag">Flexible Search</span>
                 </div>
 
-                <div class="tool-card" onclick="showTool('timing-analyzer')">
-                    <div class="tool-icon">📅</div>
+                <div class="tool-card" role="button" tabindex="0" aria-label="Timing Analyzer - Discover optimal booking windows" onclick="showTool('timing-analyzer')" onkeypress="if(event.key==='Enter')showTool('timing-analyzer')">
+                    <div class="tool-icon" aria-hidden="true">📅</div>
                     <h3>Timing Analyzer</h3>
                     <p>Discover optimal booking windows & historical price patterns</p>
                     <span class="tool-tag">Price History</span>
                 </div>
 
-                <div class="tool-card" onclick="showTool('hidden-fares')">
-                    <div class="tool-icon">💎</div>
+                <div class="tool-card" role="button" tabindex="0" aria-label="Hidden Fares - Uncover split-tickets and hidden-city options" onclick="showTool('hidden-fares')" onkeypress="if(event.key==='Enter')showTool('hidden-fares')">
+                    <div class="tool-icon" aria-hidden="true">💎</div>
                     <h3>Hidden Fares</h3>
                     <p>Uncover split-tickets, hidden-city options & fare arbitrage</p>
                     <span class="tool-tag">Advanced</span>
                 </div>
 
-                <div class="tool-card" onclick="showTool('airline-deals')">
-                    <div class="tool-icon">🏷️</div>
+                <div class="tool-card" role="button" tabindex="0" aria-label="Airline Deals - Compare direct airline offers" onclick="showTool('airline-deals')" onkeypress="if(event.key==='Enter')showTool('airline-deals')">
+                    <div class="tool-icon" aria-hidden="true">🏷️</div>
                     <h3>Airline Deals</h3>
                     <p>Compare direct airline offers, regional carriers & exclusive fares</p>
                     <span class="tool-tag">Direct Booking</span>
                 </div>
 
-                <div class="tool-card" onclick="showTool('points-optimizer')">
-                    <div class="tool-icon">💳</div>
+                <div class="tool-card" role="button" tabindex="0" aria-label="Points Optimizer - Maximize credit card points" onclick="showTool('points-optimizer')" onkeypress="if(event.key==='Enter')showTool('points-optimizer')">
+                    <div class="tool-icon" aria-hidden="true">💳</div>
                     <h3>Points Optimizer</h3>
                     <p>Maximize credit card points, airline miles & transfer partners</p>
                     <span class="tool-tag">Rewards</span>
                 </div>
 
-                <div class="tool-card" onclick="showTool('price-monitor')">
-                    <div class="tool-icon">🔔</div>
+                <div class="tool-card" role="button" tabindex="0" aria-label="Price Monitor - Set up alerts for price drops" onclick="showTool('price-monitor')" onkeypress="if(event.key==='Enter')showTool('price-monitor')">
+                    <div class="tool-icon" aria-hidden="true">🔔</div>
                     <h3>Price Monitor</h3>
                     <p>Set up alerts for price drops, error fares & award space</p>
                     <span class="tool-tag">Tracking</span>
                 </div>
 
-                <div class="tool-card" onclick="showTool('booking-audit')">
-                    <div class="tool-icon">✅</div>
+                <div class="tool-card" role="button" tabindex="0" aria-label="Booking Audit - Final checklist before booking" onclick="showTool('booking-audit')" onkeypress="if(event.key==='Enter')showTool('booking-audit')">
+                    <div class="tool-icon" aria-hidden="true">✅</div>
                     <h3>Booking Audit</h3>
                     <p>Final checklist before booking - fees, risks & alternatives</p>
                     <span class="tool-tag">Pre-Booking</span>
@@ -91,36 +92,42 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>From (Departure)</label>
-                        <input type="text" id="departure" placeholder="City or Airport (e.g., NYC, JFK)">
+                        <select id="departure" name="departure" required>
+                            <option value="">Select departure city...</option>
+                            <!-- Populated by JavaScript from CITIES constant -->
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>To (Destination)</label>
-                        <input type="text" id="destination" placeholder="City or Airport (e.g., Tokyo, NRT)">
+                        <select id="destination" name="destination" required>
+                            <option value="">Select destination city...</option>
+                            <!-- Populated by JavaScript from CITIES constant -->
+                        </select>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Departure Date</label>
-                        <input type="date" id="depart-date">
+                        <label for="depart-date">Departure Date</label>
+                        <input type="date" id="depart-date" name="depart-date">
                     </div>
                     <div class="form-group">
-                        <label>Return Date (Optional)</label>
-                        <input type="date" id="return-date">
+                        <label for="return-date">Return Date (Optional)</label>
+                        <input type="date" id="return-date" name="return-date">
                     </div>
                 </div>
 
                 <div class="form-options">
                     <label class="checkbox-label">
-                        <input type="checkbox" id="flexible-dates" checked>
+                        <input type="checkbox" id="flexible-dates" name="flexible-dates" checked>
                         <span>±3 days flexible</span>
                     </label>
                     <label class="checkbox-label">
-                        <input type="checkbox" id="nearby-airports" checked>
+                        <input type="checkbox" id="nearby-airports" name="nearby-airports" checked>
                         <span>Include nearby airports (100km)</span>
                     </label>
                     <label class="checkbox-label">
-                        <input type="checkbox" id="creative-layovers">
+                        <input type="checkbox" id="creative-layovers" name="creative-layovers">
                         <span>Allow creative layovers</span>
                     </label>
                 </div>
@@ -152,24 +159,24 @@
 
             <form class="tool-form" id="timing-form">
                 <div class="form-group">
-                    <label>Route</label>
-                    <input type="text" id="timing-route" placeholder="e.g., NYC to Tokyo">
+                    <label for="timing-route">Route</label>
+                    <input type="text" id="timing-route" name="timing-route" placeholder="e.g., NYC to Tokyo">
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Earliest Travel Date</label>
-                        <input type="date" id="earliest-date">
+                        <label for="earliest-date">Earliest Travel Date</label>
+                        <input type="date" id="earliest-date" name="earliest-date">
                     </div>
                     <div class="form-group">
-                        <label>Latest Travel Date</label>
-                        <input type="date" id="latest-date">
+                        <label for="latest-date">Latest Travel Date</label>
+                        <input type="date" id="latest-date" name="latest-date">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Trip Type</label>
-                    <select id="trip-type">
+                    <label for="trip-type">Trip Type</label>
+                    <select id="trip-type" name="trip-type">
                         <option value="economy">Economy</option>
                         <option value="business">Business Class</option>
                         <option value="first">First Class</option>
@@ -196,26 +203,26 @@
             <form class="tool-form" id="hidden-form">
                 <div class="form-row">
                     <div class="form-group">
-                        <label>From</label>
-                        <input type="text" id="hidden-from" placeholder="Departure city">
+                        <label for="hidden-from">From</label>
+                        <input type="text" id="hidden-from" name="hidden-from" placeholder="Departure city">
                     </div>
                     <div class="form-group">
-                        <label>To</label>
-                        <input type="text" id="hidden-to" placeholder="Destination city">
+                        <label for="hidden-to">To</label>
+                        <input type="text" id="hidden-to" name="hidden-to" placeholder="Destination city">
                     </div>
                 </div>
 
                 <div class="form-options">
                     <label class="checkbox-label">
-                        <input type="checkbox" id="split-ticket" checked>
+                        <input type="checkbox" id="split-ticket" name="split-ticket" checked>
                         <span>Split-ticket options</span>
                     </label>
                     <label class="checkbox-label">
-                        <input type="checkbox" id="hidden-city">
+                        <input type="checkbox" id="hidden-city" name="hidden-city">
                         <span>Hidden-city opportunities (one-way only)</span>
                     </label>
                     <label class="checkbox-label">
-                        <input type="checkbox" id="positioning-flights" checked>
+                        <input type="checkbox" id="positioning-flights" name="positioning-flights" checked>
                         <span>Positioning flight strategies</span>
                     </label>
                 </div>
@@ -244,31 +251,31 @@
 
             <form class="tool-form" id="deals-form">
                 <div class="form-group">
-                    <label>Route</label>
-                    <input type="text" id="deals-route" placeholder="e.g., JFK to LHR">
+                    <label for="deals-route">Route</label>
+                    <input type="text" id="deals-route" name="deals-route" placeholder="e.g., JFK to LHR">
                 </div>
 
                 <div class="form-group">
-                    <label>Preferred Airlines (Optional)</label>
-                    <div class="airline-tags">
-                        <span class="tag" onclick="toggleAirline(this)">United</span>
-                        <span class="tag" onclick="toggleAirline(this)">Delta</span>
-                        <span class="tag" onclick="toggleAirline(this)">American</span>
-                        <span class="tag" onclick="toggleAirline(this)">Emirates</span>
-                        <span class="tag" onclick="toggleAirline(this)">Qatar</span>
-                        <span class="tag" onclick="toggleAirline(this)">Lufthansa</span>
-                        <span class="tag" onclick="toggleAirline(this)">Singapore</span>
-                        <span class="tag" onclick="toggleAirline(this)">Turkish</span>
+                    <label id="airlines-label">Preferred Airlines (Optional)</label>
+                    <div class="airline-tags" role="group" aria-labelledby="airlines-label">
+                        <span class="tag" role="button" tabindex="0" onclick="toggleAirline(this)" onkeypress="if(event.key==='Enter')toggleAirline(this)">United</span>
+                        <span class="tag" role="button" tabindex="0" onclick="toggleAirline(this)" onkeypress="if(event.key==='Enter')toggleAirline(this)">Delta</span>
+                        <span class="tag" role="button" tabindex="0" onclick="toggleAirline(this)" onkeypress="if(event.key==='Enter')toggleAirline(this)">American</span>
+                        <span class="tag" role="button" tabindex="0" onclick="toggleAirline(this)" onkeypress="if(event.key==='Enter')toggleAirline(this)">Emirates</span>
+                        <span class="tag" role="button" tabindex="0" onclick="toggleAirline(this)" onkeypress="if(event.key==='Enter')toggleAirline(this)">Qatar</span>
+                        <span class="tag" role="button" tabindex="0" onclick="toggleAirline(this)" onkeypress="if(event.key==='Enter')toggleAirline(this)">Lufthansa</span>
+                        <span class="tag" role="button" tabindex="0" onclick="toggleAirline(this)" onkeypress="if(event.key==='Enter')toggleAirline(this)">Singapore</span>
+                        <span class="tag" role="button" tabindex="0" onclick="toggleAirline(this)" onkeypress="if(event.key==='Enter')toggleAirline(this)">Turkish</span>
                     </div>
                 </div>
 
                 <div class="form-options">
                     <label class="checkbox-label">
-                        <input type="checkbox" id="member-fares" checked>
+                        <input type="checkbox" id="member-fares" name="member-fares" checked>
                         <span>Check member-exclusive fares</span>
                     </label>
                     <label class="checkbox-label">
-                        <input type="checkbox" id="lcc-options" checked>
+                        <input type="checkbox" id="lcc-options" name="lcc-options" checked>
                         <span>Include low-cost carriers</span>
                     </label>
                 </div>
@@ -293,12 +300,12 @@
             <form class="tool-form" id="points-form">
                 <div class="form-row">
                     <div class="form-group">
-                        <label>From</label>
-                        <input type="text" id="points-from" placeholder="Departure">
+                        <label for="points-from">From</label>
+                        <input type="text" id="points-from" name="points-from" placeholder="Departure">
                     </div>
                     <div class="form-group">
-                        <label>To</label>
-                        <input type="text" id="points-to" placeholder="Destination">
+                        <label for="points-to">To</label>
+                        <input type="text" id="points-to" name="points-to" placeholder="Destination">
                     </div>
                 </div>
 
@@ -306,32 +313,32 @@
                     <label>Your Points Programs</label>
                     <div class="points-grid">
                         <label class="checkbox-label">
-                            <input type="checkbox" id="chase-ur">
+                            <input type="checkbox" id="chase-ur" name="chase-ur">
                             <span>Chase Ultimate Rewards</span>
                         </label>
                         <label class="checkbox-label">
-                            <input type="checkbox" id="amex-mr">
+                            <input type="checkbox" id="amex-mr" name="amex-mr">
                             <span>Amex Membership Rewards</span>
                         </label>
                         <label class="checkbox-label">
-                            <input type="checkbox" id="citi-ty">
+                            <input type="checkbox" id="citi-ty" name="citi-ty">
                             <span>Citi ThankYou Points</span>
                         </label>
                         <label class="checkbox-label">
-                            <input type="checkbox" id="cap-one">
+                            <input type="checkbox" id="cap-one" name="cap-one">
                             <span>Capital One Miles</span>
                         </label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Current Points Balance (approximate)</label>
-                    <input type="number" id="points-balance" placeholder="e.g., 50000">
+                    <label for="points-balance">Current Points Balance (approximate)</label>
+                    <input type="number" id="points-balance" name="points-balance" placeholder="e.g., 50000">
                 </div>
 
                 <div class="form-options">
                     <label class="checkbox-label">
-                        <input type="checkbox" id="compare-cash" checked>
+                        <input type="checkbox" id="compare-cash" name="compare-cash" checked>
                         <span>Compare cash vs points value</span>
                     </label>
                 </div>
@@ -355,39 +362,39 @@
 
             <form class="tool-form" id="monitor-form">
                 <div class="form-group">
-                    <label>Route to Monitor</label>
-                    <input type="text" id="monitor-route" placeholder="e.g., NYC to Tokyo">
+                    <label for="monitor-route">Route to Monitor</label>
+                    <input type="text" id="monitor-route" name="monitor-route" placeholder="e.g., NYC to Tokyo">
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Target Price ($)</label>
-                        <input type="number" id="target-price" placeholder="e.g., 800">
+                        <label for="target-price">Target Price ($)</label>
+                        <input type="number" id="target-price" name="target-price" placeholder="e.g., 800">
                     </div>
                     <div class="form-group">
-                        <label>Alert Email</label>
-                        <input type="email" id="alert-email" placeholder="your@email.com">
+                        <label for="alert-email">Alert Email</label>
+                        <input type="email" id="alert-email" name="alert-email" placeholder="your@email.com">
                     </div>
                 </div>
 
                 <div class="form-options">
                     <label class="checkbox-label">
-                        <input type="checkbox" id="monitor-error-fares" checked>
+                        <input type="checkbox" id="monitor-error-fares" name="monitor-error-fares" checked>
                         <span>Monitor for error fares</span>
                     </label>
                     <label class="checkbox-label">
-                        <input type="checkbox" id="monitor-award-space">
+                        <input type="checkbox" id="monitor-award-space" name="monitor-award-space">
                         <span>Monitor award space availability</span>
                     </label>
                     <label class="checkbox-label">
-                        <input type="checkbox" id="monitor-flash-sales" checked>
+                        <input type="checkbox" id="monitor-flash-sales" name="monitor-flash-sales" checked>
                         <span>Flash sale alerts</span>
                     </label>
                 </div>
 
                 <div class="form-group">
-                    <label>Check Frequency</label>
-                    <select id="check-frequency">
+                    <label for="check-frequency">Check Frequency</label>
+                    <select id="check-frequency" name="check-frequency">
                         <option value="hourly">Every hour</option>
                         <option value="6hours" selected>Every 6 hours</option>
                         <option value="daily">Once daily</option>
@@ -413,13 +420,13 @@
 
             <form class="tool-form" id="audit-form">
                 <div class="form-group">
-                    <label>Paste Your Itinerary</label>
-                    <textarea id="itinerary-text" rows="6" placeholder="Paste flight details, confirmation numbers, times, airlines..."></textarea>
+                    <label for="itinerary-text">Paste Your Itinerary</label>
+                    <textarea id="itinerary-text" name="itinerary-text" rows="6" placeholder="Paste flight details, confirmation numbers, times, airlines..."></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label>Booking Platform</label>
-                    <select id="booking-platform">
+                    <label for="booking-platform">Booking Platform</label>
+                    <select id="booking-platform" name="booking-platform">
                         <option value="">Select platform...</option>
                         <option value="airline-direct">Airline Direct</option>
                         <option value="expedia">Expedia</option>
@@ -432,19 +439,19 @@
 
                 <div class="form-options">
                     <label class="checkbox-label">
-                        <input type="checkbox" id="check-alternatives" checked>
+                        <input type="checkbox" id="check-alternatives" name="check-alternatives" checked>
                         <span>Check for cheaper alternatives</span>
                     </label>
                     <label class="checkbox-label">
-                        <input type="checkbox" id="check-fees" checked>
+                        <input type="checkbox" id="check-fees" name="check-fees" checked>
                         <span>Audit for hidden fees</span>
                     </label>
                     <label class="checkbox-label">
-                        <input type="checkbox" id="check-connections" checked>
+                        <input type="checkbox" id="check-connections" name="check-connections" checked>
                         <span>Validate connection times</span>
                     </label>
                     <label class="checkbox-label">
-                        <input type="checkbox" id="check-visa">
+                        <input type="checkbox" id="check-visa" name="check-visa">
                         <span>Check visa/transit requirements</span>
                     </label>
                 </div>
@@ -465,6 +472,9 @@
         <p class="footer-quote">"The world is a book, and the traveler reads its pages"</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+    <script src="js/cities-data.js"></script>
+    <script src="js/pricing-engine.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

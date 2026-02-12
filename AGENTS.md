@@ -207,6 +207,122 @@ Think of it like a human reviewing their journal and updating their mental model
 
 The goal: Be helpful without being annoying. Check in a few times a day, do useful background work, but respect quiet time.
 
+## Agent Primitives & Long-Running Workflows
+
+Based on OpenAI's agent primitives (Skills, Shell, Compaction), we've implemented patterns for reliable multi-hour workflows.
+
+### 🗂️ Artifact Directory Convention
+
+Standardized output locations for workflow handoffs:
+
+```
+artifacts/
+├── data/          # Processed datasets, JSON, CSV files
+├── reports/       # Analysis reports, summaries, markdown
+├── exports/       # Final deliverables for user
+└── temp/          # Intermediate files (auto-cleaned daily)
+```
+
+**Naming convention:** `{description}-{YYYY-MM-DD}.{ext}`
+- `artifacts/data/twitter-scrape-2026-02-12.json`
+- `artifacts/reports/sentiment-analysis-2026-02-12.md`
+
+**In skills:** Always write outputs to `artifacts/{type}/` for discoverability.
+
+### 🔐 Secrets Management
+
+Store credentials securely without exposing them to context window:
+
+```bash
+# Store a secret
+python3 skills/secrets-manager/secrets.py set github-token ghp_xxxxxxxx
+
+# Use in commands (injected at runtime)
+python3 skills/secrets-manager/secrets.py inject 'curl -H "Authorization: Bearer $GITHUB_TOKEN" ...'
+```
+
+**Location:** `~/.openclaw/secrets/` (0700 permissions, 0600 files)
+
+**Never:**
+- Paste secrets directly into conversation
+- Store secrets in regular workspace files
+- Commit secrets to git
+
+### 🔄 Compaction for Long Runs
+
+Prevent context window exhaustion in multi-hour sessions:
+
+```bash
+# Analyze current context usage
+python3 skills/compaction/compaction.py analyze
+
+# Create checkpoint before major operation
+python3 skills/compaction/compaction.py checkpoint "before-api-migration"
+
+# View compaction report
+python3 skills/compaction/compaction.py report
+```
+
+**Best practices:**
+- Compact every ~50 turns or 2 hours
+- Checkpoint at natural task boundaries
+- Save critical decisions before compaction
+
+### 🏃 Long-Runner Workflows
+
+Manage multi-step workflows with state persistence:
+
+```bash
+# Initialize workflow
+python3 skills/long-runner/scripts/init.py --name "crypto-analysis"
+
+# Set state
+python3 skills/long-runner/scripts/state.py set phase "data-collection"
+python3 skills/long-runner/scripts/state.py set target_tweets 1000
+
+# Create checkpoint
+python3 skills/long-runner/scripts/checkpoint.py create "phase-1-complete"
+
+# List checkpoints
+python3 skills/long-runner/scripts/checkpoint.py list
+```
+
+**Workflow directory:** `workflows/{name}/`
+- `state.json` - Current workflow state
+- `checkpoints/` - Saved progress points
+- `outputs/` - Step outputs
+
+### 🛡️ Security Model
+
+Two-layer network allowlist (see `~/.openclaw/config/security.yaml`):
+
+1. **Org-level:** Maximum allowed destinations (admin configured)
+2. **Request-level:** Per-skill/per-request allowlists (subset of org)
+
+**Principle:** Minimal access - only request domains you actually need.
+
+### 📝 Skill Description Pattern
+
+Skills should have routing-logic descriptions:
+
+```yaml
+description: |
+  Clear statement of what this skill does.
+  
+  USE WHEN:
+  - Specific trigger condition 1
+  - Specific trigger condition 2
+  
+  DON'T USE WHEN:
+  - Condition where skill doesn't apply
+  - Alternative approach is better
+  
+  OUTPUTS: What the skill produces
+  TOOLS: Key tools used
+```
+
+See `skills/x-scraper/SKILL.md` for a complete example.
+
 ## Make It Yours
 
 This is a starting point. Add your own conventions, style, and rules as you figure out what works.
